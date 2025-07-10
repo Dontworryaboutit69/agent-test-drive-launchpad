@@ -2,21 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ConversationTranscript } from "@/components/ConversationTranscript";
+import { Textarea } from "@/components/ui/textarea";
 import { useRetellCall } from "@/hooks/useRetellCall";
 import { ArrowLeft, Phone, PhoneOff, Mic, MicOff } from "lucide-react";
 import { toast } from "sonner";
 
-interface Transcript {
-  role: 'agent' | 'user';
-  content: string;
-  timestamp: Date;
-}
-
 const Demo = () => {
   const { agentId } = useParams<{ agentId: string }>();
   const [isMuted, setIsMuted] = useState(false);
-  const [transcripts, setTranscripts] = useState<Transcript[]>([]);
+  const [notes, setNotes] = useState("");
 
   const { isConnected, isCallActive, callStatus, startCall, endCall } = useRetellCall({
     agentId: agentId || '',
@@ -25,9 +19,6 @@ const Demo = () => {
     },
     onCallEnd: () => {
       toast.info("Call ended");
-    },
-    onTranscript: (transcript) => {
-      setTranscripts(prev => [...prev, transcript]);
     },
     onError: (error) => {
       toast.error(`Call error: ${error}`);
@@ -181,14 +172,45 @@ const Demo = () => {
                     <p>1. Click "Start Call" to connect to the AI agent</p>
                     <p>2. Allow microphone access when prompted</p>
                     <p>3. Speak naturally - the agent will respond instantly</p>
-                    <p>4. Watch the live transcript on the right</p>
+                    <p>4. Use the notes section to record feedback</p>
                   </div>
                 </div>
               </Card>
             </div>
 
-            {/* Live Transcript */}
-            <ConversationTranscript transcripts={transcripts} />
+            {/* Notes Section */}
+            <div className="space-y-6">
+              <Card className="p-6 bg-gradient-card backdrop-blur-sm border border-primary/20 shadow-card">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-audiowide text-primary">Notes & Feedback</h3>
+                  <p className="text-sm text-foreground/60 font-manrope">
+                    Write down any feedback, suggestions, or notes while testing the agent
+                  </p>
+                  
+                  <Textarea
+                    placeholder="Type your notes here while speaking with the agent..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="min-h-[300px] resize-none bg-background/50 border-primary/20 focus:border-primary text-foreground placeholder:text-foreground/40 font-manrope"
+                  />
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-foreground/40 font-manrope">
+                      {notes.length} characters
+                    </span>
+                    
+                    <Button
+                      onClick={() => setNotes("")}
+                      variant="outline"
+                      size="sm"
+                      disabled={!notes.trim()}
+                    >
+                      Clear Notes
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
