@@ -26,36 +26,51 @@ export const useRetellCall = ({
 
   useEffect(() => {
     // Load Retell SDK dynamically
-    const loadRetellSDK = async () => {
-      try {
+    const loadRetellSDK = () => {
+      return new Promise<void>((resolve, reject) => {
         // Check if SDK is already loaded
         if ((window as any).RetellWebClient) {
+          console.log('Retell SDK already available');
           setSdkLoaded(true);
+          resolve();
           return;
         }
 
+        // Create and load script
         const script = document.createElement('script');
-        script.src = 'https://unpkg.com/retell-client-js-sdk@latest/dist/retell-client-js-sdk.umd.js';
+        script.src = 'https://unpkg.com/retell-client-js-sdk@latest/dist/index.umd.js';
         script.async = true;
+        script.defer = true;
         
         script.onload = () => {
-          console.log('Retell SDK loaded successfully');
-          setSdkLoaded(true);
+          console.log('Retell SDK script loaded');
+          // Wait a bit for the global to be available
+          setTimeout(() => {
+            if ((window as any).RetellWebClient) {
+              console.log('Retell SDK available and ready');
+              setSdkLoaded(true);
+              resolve();
+            } else {
+              console.error('Retell SDK loaded but RetellWebClient not available');
+              reject(new Error('SDK loaded but not accessible'));
+            }
+          }, 100);
         };
         
-        script.onerror = () => {
-          console.error('Failed to load Retell SDK');
-          onError?.('Failed to load Retell SDK. Please refresh the page and try again.');
+        script.onerror = (error) => {
+          console.error('Failed to load Retell SDK script:', error);
+          reject(new Error('Failed to load SDK script'));
         };
         
+        console.log('Loading Retell SDK...');
         document.head.appendChild(script);
-      } catch (error) {
-        console.error('Failed to load Retell SDK:', error);
-        onError?.('Failed to load Retell SDK. Please refresh the page and try again.');
-      }
+      });
     };
 
-    loadRetellSDK();
+    loadRetellSDK().catch((error) => {
+      console.error('SDK loading failed:', error);
+      onError?.('Failed to load voice client. Please refresh the page and try again.');
+    });
   }, [onError]);
 
   const createWebCall = async (agentId: string) => {
@@ -99,9 +114,12 @@ export const useRetellCall = ({
     }
 
     if (!sdkLoaded) {
-      onError?.("Retell SDK is still loading. Please wait a moment and try again.");
+      console.log('SDK not loaded yet, current state:', sdkLoaded);
+      onError?.("Voice client is still loading. Please wait a moment and try again.");
       return;
     }
+
+    console.log('Starting call with agent:', agentId, 'SDK loaded:', sdkLoaded);
 
     try {
       setCallStatus("Creating web call...");

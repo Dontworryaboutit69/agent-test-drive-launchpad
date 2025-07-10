@@ -123,10 +123,11 @@ const Demo = () => {
                   <div className="flex items-center justify-center space-x-2">
                     <div className={`w-3 h-3 rounded-full ${
                       isCallActive ? 'bg-primary animate-pulse shadow-glow' : 
-                      isConnected ? 'bg-brand-cyber-yellow shadow-[0_0_10px_rgba(254,221,77,0.5)]' : 'bg-accent'
+                      isConnected ? 'bg-brand-cyber-yellow shadow-[0_0_10px_rgba(254,221,77,0.5)]' : 
+                      callStatus.includes('Loading') ? 'bg-blue-500 animate-spin' : 'bg-accent'
                     }`} />
                     <span className="font-audiowide text-sm">
-                      {isCallActive ? 'Call Active' : isConnected ? 'Ready' : 'Connecting...'}
+                      {isCallActive ? 'Call Active' : isConnected ? 'Ready' : 'Initializing...'}
                     </span>
                   </div>
                   
@@ -140,13 +141,13 @@ const Demo = () => {
                   {!isCallActive ? (
                     <Button
                       onClick={startCall}
-                      disabled={!agentId}
+                      disabled={!agentId || callStatus.includes('Loading')}
                       variant="hero"
                       size="lg"
                       className="px-8"
                     >
                       <Phone className="w-5 h-5" />
-                      Start Call
+                      {callStatus.includes('Loading') ? 'Loading...' : 'Start Call'}
                     </Button>
                   ) : (
                     <div className="flex space-x-3">
