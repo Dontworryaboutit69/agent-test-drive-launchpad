@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
 import { useRetellCall } from "@/hooks/useRetellCall";
-import { ArrowLeft, Phone, PhoneOff, Mic, MicOff, Settings } from "lucide-react";
+import { Phone, PhoneOff, Mic, MicOff } from "lucide-react";
 import { toast } from "sonner";
 
 const Demo = () => {
   const { agentId } = useParams<{ agentId: string }>();
   const [isMuted, setIsMuted] = useState(false);
   const [notes, setNotes] = useState("");
-  const [apiKey, setApiKey] = useState(localStorage.getItem('retell-api-key') || "");
-  const [showApiKeyInput, setShowApiKeyInput] = useState(!localStorage.getItem('retell-api-key'));
 
   const { isConnected, isCallActive, callStatus, startCall, endCall } = useRetellCall({
     agentId: agentId || '',
@@ -33,23 +30,6 @@ const Demo = () => {
     toast.info(isMuted ? "Unmuted" : "Muted");
   };
 
-  const saveApiKey = () => {
-    if (!apiKey.trim()) {
-      toast.error("Please enter your Retell API key");
-      return;
-    }
-    localStorage.setItem('retell-api-key', apiKey);
-    setShowApiKeyInput(false);
-    toast.success("API key saved locally");
-  };
-
-  const clearApiKey = () => {
-    localStorage.removeItem('retell-api-key');
-    setApiKey("");
-    setShowApiKeyInput(true);
-    toast.info("API key cleared");
-  };
-
   if (!agentId) {
     return (
       <div className="min-h-screen bg-background relative overflow-hidden">
@@ -57,22 +37,11 @@ const Demo = () => {
         
         <div className="relative z-10 container mx-auto px-4 py-20">
           <div className="max-w-md mx-auto text-center">
-            <Link to="/" className="inline-flex items-center gap-2 text-foreground/70 hover:text-primary mb-8 transition-colors font-manrope">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Link>
-
             <Card className="p-8 bg-gradient-card backdrop-blur-sm border border-primary/20 shadow-glow">
               <h1 className="text-2xl font-audiowide mb-4 text-primary">Invalid Demo Link</h1>
               <p className="text-foreground/70 mb-6 font-manrope">
                 This demo link appears to be invalid. Please check the URL or contact support.
               </p>
-              
-              <Link to="/">
-                <Button variant="hero" className="w-full">
-                  Go to Homepage
-                </Button>
-              </Link>
             </Card>
           </div>
         </div>
@@ -88,19 +57,12 @@ const Demo = () => {
       
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 text-foreground/70 hover:text-primary transition-colors font-manrope">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-          
-          <div className="flex justify-center">
-            <img 
-              src="/lovable-uploads/9f080a38-d1b4-4473-8c2e-f32b994e43d6.png" 
-              alt="RevSquared AI Logo" 
-              className="h-12 w-auto drop-shadow-[0_0_20px_rgba(0,229,214,0.3)]"
-            />
-          </div>
+        <div className="flex justify-center mb-8">
+          <img 
+            src="/lovable-uploads/9f080a38-d1b4-4473-8c2e-f32b994e43d6.png" 
+            alt="Voice AI Logo" 
+            className="h-12 w-auto drop-shadow-[0_0_20px_rgba(0,229,214,0.3)]"
+          />
         </div>
 
         <div className="max-w-4xl mx-auto">
@@ -123,53 +85,6 @@ const Demo = () => {
               </p>
             </div>
           </Card>
-
-          {/* API Key Setup */}
-          {showApiKeyInput && (
-            <Card className="p-6 bg-gradient-card backdrop-blur-sm border border-orange-500/20 shadow-card mb-8">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Settings className="w-5 h-5 text-orange-400" />
-                  <h3 className="text-lg font-audiowide text-orange-400">API Key Required</h3>
-                </div>
-                
-                <p className="text-sm text-foreground/70 font-manrope">
-                  Enter your Retell API key to test the voice agent. The key will be stored locally in your browser.
-                </p>
-                
-                <div className="flex gap-2">
-                  <Input
-                    type="password"
-                    placeholder="Enter your Retell API key..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    className="flex-1 bg-background/50 border-orange-500/20 focus:border-orange-400"
-                  />
-                  <Button onClick={saveApiKey} variant="outline">
-                    Save
-                  </Button>
-                </div>
-                
-                <p className="text-xs text-foreground/50 font-manrope">
-                  ⚠️ This stores the API key in your browser's localStorage for testing only. For production, use a secure backend.
-                </p>
-              </div>
-            </Card>
-          )}
-
-          {!showApiKeyInput && (
-            <Card className="p-4 bg-gradient-card backdrop-blur-sm border border-green-500/20 shadow-card mb-8">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full" />
-                  <span className="text-sm font-audiowide text-green-400">API Key Configured</span>
-                </div>
-                <Button onClick={clearApiKey} variant="outline" size="sm">
-                  Change Key
-                </Button>
-              </div>
-            </Card>
-          )}
 
           {/* Main Content Grid */}
           <div className="grid lg:grid-cols-2 gap-8">
@@ -234,12 +149,12 @@ const Demo = () => {
               {/* Instructions */}
               <Card className="p-4 bg-background/30 border-dashed border-primary/30 backdrop-blur-sm">
                 <div className="text-center space-y-2">
-                  <h4 className="font-audiowide text-primary">Setup Required:</h4>
+                  <h4 className="font-audiowide text-primary">How to use:</h4>
                   <div className="text-sm text-foreground/70 space-y-1 font-manrope">
-                    <p>1. Create a backend endpoint that calls Retell's create-web-call API</p>
-                    <p>2. Use your Retell API key in the backend (never in frontend)</p>
-                    <p>3. Update the createWebCall function to call your backend</p>
-                    <p>4. Then test the agent with real voice calls</p>
+                    <p>1. Click "Start Call" to connect to the AI agent</p>
+                    <p>2. Allow microphone access when prompted</p>
+                    <p>3. Speak naturally - the agent will respond instantly</p>
+                    <p>4. Use the notes section to record feedback</p>
                   </div>
                 </div>
               </Card>
