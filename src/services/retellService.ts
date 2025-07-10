@@ -5,18 +5,22 @@ export interface CreateWebCallResponse {
 }
 
 export const createWebCall = async (agentId: string): Promise<CreateWebCallResponse> => {
-  // This would normally call your backend API endpoint
-  // For demo purposes, we'll return a mock response
-  // In production, your backend would call Retell's create-web-call API
-  
   console.log("Creating web call for agent:", agentId);
   
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  // Mock response - in production this would be a real access token from Retell
-  return {
-    access_token: `mock_access_token_${agentId}_${Date.now()}`,
-    call_id: `call_${Date.now()}`
-  };
+  try {
+    // In production, this would call your backend endpoint:
+    // const response = await fetch('/api/create-web-call', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ agentId })
+    // });
+    // return response.json();
+    
+    // For demo: simulate the call but throw an error to inform user
+    throw new Error("Backend integration required. Please set up a backend endpoint to call Retell's create-web-call API with your API key.");
+    
+  } catch (error) {
+    console.error("Failed to create web call:", error);
+    throw error;
+  }
 };
