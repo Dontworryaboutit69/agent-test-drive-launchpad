@@ -70,7 +70,7 @@ class WorkingAudioConnection {
       
       // Step 5: Send initial agent greeting
       setTimeout(() => {
-        const greeting = `Hello! I'm your AI agent (${this.agentId.slice(-8)}). I can hear you clearly through your microphone. How can I help you today?`;
+        const greeting = "Thank you for calling BANA Roofing, this is your AI assistant. How can I help you today?";
         this.speakResponse(greeting);
         this.onTranscript?.({
           role: 'agent',
