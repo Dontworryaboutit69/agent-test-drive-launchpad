@@ -42,10 +42,6 @@ export const Hero = () => {
           </p>
         </div>
 
-        {/* API Key Setup Instructions */}
-        <div className="mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-          <ApiKeyInstructions />
-        </div>
 
         {/* Demo URL Generator */}
         <div className="max-w-2xl mx-auto mb-16 animate-scale-in" style={{ animationDelay: "0.3s" }}>
