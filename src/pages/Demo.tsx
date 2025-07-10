@@ -286,14 +286,33 @@ const Demo = () => {
                       {notes.length} characters
                     </span>
                     
-                    <Button
-                      onClick={() => setNotes("")}
-                      variant="outline"
-                      size="sm"
-                      disabled={!notes.trim()}
-                    >
-                      Clear Notes
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => setNotes("")}
+                        variant="outline"
+                        size="sm"
+                        disabled={!notes.trim()}
+                      >
+                        Clear Notes
+                      </Button>
+                      
+                      <Button
+                        onClick={() => {
+                          if (!notes.trim()) {
+                            toast.error("Please write some notes before submitting");
+                            return;
+                          }
+                          toast.success("Feedback submitted successfully!");
+                          // Here you could send the notes to a backend or email service
+                          console.log("Submitted feedback:", { agentId, notes, timestamp: new Date() });
+                        }}
+                        variant="hero"
+                        size="sm"
+                        disabled={!notes.trim()}
+                      >
+                        Submit Feedback
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </Card>
