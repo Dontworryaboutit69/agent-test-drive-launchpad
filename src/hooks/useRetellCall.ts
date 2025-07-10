@@ -75,24 +75,19 @@ export const useRetellCall = ({
 
       // Get access token from backend service
       setCallStatus("Getting access token...");
-      try {
-        const callResponse = await retellServiceBackend.startCall(agentId);
-        
-        setCallStatus("Starting call...");
-        await retellWebClientRef.current.startCall({
-          accessToken: callResponse.access_token
-        });
-        
-        console.log("✅ Call started successfully");
-      } catch (backendError) {
-        console.warn("Backend service not available, using demo mode:", backendError);
-        // For demo purposes, immediately set call as active since we're simulating
-        setIsConnected(true);
-        setIsCallActive(true);
-        setCallStatus("Demo mode - Backend setup required");
-        onCallStart?.();
-        return;
-      }
+      console.log("📞 Requesting access token from backend service...");
+      
+      const callResponse = await retellServiceBackend.startCall(agentId);
+      console.log("✅ Got access token:", callResponse);
+      
+      setCallStatus("Starting call...");
+      console.log("🎤 Starting Retell call...");
+      
+      await retellWebClientRef.current.startCall({
+        accessToken: callResponse.access_token
+      });
+      
+      console.log("✅ Call started successfully - waiting for conversation to begin...");
       
     } catch (error) {
       console.error('❌ Failed to start call:', error);
