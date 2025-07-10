@@ -112,6 +112,10 @@ export const useRetellCall = ({
         retellWebClientRef.current.stopCall();
       }
       
+      // Also end the call on the backend if we have a call ID
+      // Note: Retell Web SDK doesn't expose call ID, so we'll rely on the client-side stop
+      // The backend call cleanup happens automatically when the websocket disconnects
+      
       setIsCallActive(false);
       setIsConnected(false);
       setCallStatus("Call ended");
