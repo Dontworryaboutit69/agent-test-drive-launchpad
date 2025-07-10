@@ -87,6 +87,12 @@ export const useRetellCall = ({
         accessToken: callResponse.access_token
       });
       
+      // Set call as active immediately when startCall succeeds
+      setIsCallActive(true);
+      setIsConnected(true);
+      setCallStatus("Connected - Speaking with agent");
+      onCallStart?.();
+      
       console.log("✅ Call started successfully - waiting for conversation to begin...");
       
     } catch (error) {
