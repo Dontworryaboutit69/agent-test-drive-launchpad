@@ -14,19 +14,34 @@ const Demo = () => {
   const [notes, setNotes] = useState("");
   const [apiKey, setApiKey] = useState(localStorage.getItem('retell-api-key') || "");
   const [showApiKeyInput, setShowApiKeyInput] = useState(!localStorage.getItem('retell-api-key'));
+  const [isStarting, setIsStarting] = useState(false);
 
-  const { isConnected, isCallActive, callStatus, startCall, endCall } = useRetellCall({
+  const { isConnected, isCallActive, callStatus, startCall: originalStartCall, endCall: originalEndCall } = useRetellCall({
     agentId: agentId || '',
     onCallStart: () => {
+      setIsStarting(false);
       toast.success("Connected to your AI agent!");
     },
     onCallEnd: () => {
+      setIsStarting(false);
       toast.info("Call ended");
     },
     onError: (error) => {
+      setIsStarting(false);
       toast.error(`Call error: ${error}`);
     }
   });
+
+  const handleStartCall = async () => {
+    if (isStarting || isCallActive) return;
+    setIsStarting(true);
+    await originalStartCall();
+  };
+
+  const handleEndCall = async () => {
+    await originalEndCall();
+    setIsStarting(false);
+  };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -198,14 +213,14 @@ const Demo = () => {
                 <div className="flex justify-center space-x-4">
                   {!isCallActive ? (
                     <Button
-                      onClick={startCall}
-                      disabled={!agentId || callStatus.includes('Loading')}
+                      onClick={handleStartCall}
+                      disabled={!agentId || isStarting || isCallActive}
                       variant="hero"
                       size="lg"
                       className="px-8"
                     >
                       <Phone className="w-5 h-5" />
-                      {callStatus.includes('Loading') ? 'Loading...' : 'Start Call'}
+                      {isStarting ? 'Starting...' : 'Start Call'}
                     </Button>
                   ) : (
                     <div className="flex space-x-3">
@@ -218,7 +233,7 @@ const Demo = () => {
                       </Button>
                       
                       <Button
-                        onClick={endCall}
+                        onClick={handleEndCall}
                         variant="destructive"
                         size="lg"
                         className="px-8"
