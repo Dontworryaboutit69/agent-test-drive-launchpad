@@ -6,7 +6,6 @@ import { useRetellCall } from "@/hooks/useRetellCall";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { DemoHeader } from "@/components/demo/DemoHeader";
-import { ApiKeySetup } from "@/components/demo/ApiKeySetup";
 import { CallControls } from "@/components/demo/CallControls";
 import { NotesSection } from "@/components/demo/NotesSection";
 import { InstructionsCard } from "@/components/demo/InstructionsCard";
@@ -15,8 +14,6 @@ const Demo = () => {
   const { agentId } = useParams<{ agentId: string }>();
   const [isMuted, setIsMuted] = useState(false);
   const [notes, setNotes] = useState("");
-  const [apiKey, setApiKey] = useState(localStorage.getItem('retell-api-key') || "");
-  const [showApiKeyInput, setShowApiKeyInput] = useState(!localStorage.getItem('retell-api-key'));
   const [isStarting, setIsStarting] = useState(false);
 
   const { isConnected, isCallActive, callStatus, startCall: originalStartCall, endCall: originalEndCall } = useRetellCall({
@@ -91,13 +88,6 @@ const Demo = () => {
         <DemoHeader agentId={agentId} />
 
         <div className="max-w-4xl mx-auto">
-          <ApiKeySetup 
-            apiKey={apiKey}
-            setApiKey={setApiKey}
-            showApiKeyInput={showApiKeyInput}
-            setShowApiKeyInput={setShowApiKeyInput}
-          />
-
           {/* Main Content Grid */}
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Call Controls */}

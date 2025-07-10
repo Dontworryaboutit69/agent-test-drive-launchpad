@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { RetellWebClient } from "retell-client-js-sdk";
-import { createWebCall } from "@/services/retellService";
+import { retellServiceBackend } from "@/services/retellServiceBackend";
 
 interface UseRetellCallParams {
   agentId: string;
@@ -75,7 +75,7 @@ export const useRetellCall = ({
 
       // Get access token from backend service
       setCallStatus("Getting access token...");
-      const callResponse = await createWebCall(agentId);
+      const callResponse = await retellServiceBackend.startCall(agentId);
       
       setCallStatus("Starting call...");
       await retellWebClientRef.current.startCall({

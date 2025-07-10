@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { GenerateDemoUrl } from "@/components/GenerateDemoUrl";
+import { ApiKeyInstructions } from "@/components/ApiKeyInstructions";
 import { MessageCircle, Zap, Users, ArrowRight, Sparkles } from "lucide-react";
 
 export const Hero = () => {
@@ -39,6 +40,11 @@ export const Hero = () => {
             Generate instant demo URLs for your Retell AI agents. Share with clients for 
             <span className="text-primary font-semibold"> professional voice testing</span>.
           </p>
+        </div>
+
+        {/* API Key Setup Instructions */}
+        <div className="mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <ApiKeyInstructions />
         </div>
 
         {/* Demo URL Generator */}
