@@ -70,9 +70,11 @@ class WorkingAudioConnection {
       
       // Step 5: Send initial agent greeting
       setTimeout(() => {
+        const greeting = `Hello! I'm your AI agent (${this.agentId.slice(-8)}). I can hear you clearly through your microphone. How can I help you today?`;
+        this.speakResponse(greeting);
         this.onTranscript?.({
           role: 'agent',
-          content: `Hello! I'm your AI agent (${this.agentId.slice(-8)}). I can hear you clearly through your microphone. How can I help you today?`,
+          content: greeting,
           timestamp: new Date()
         });
       }, 1500);
@@ -144,6 +146,9 @@ class WorkingAudioConnection {
         
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
         
+        // Add text-to-speech
+        this.speakResponse(randomResponse);
+        
         this.onTranscript?.({
           role: 'agent',
           content: randomResponse,
@@ -151,6 +156,32 @@ class WorkingAudioConnection {
         });
       }
     }, 1500 + Math.random() * 2500); // Random delay 1.5-4 seconds
+  }
+
+  private speakResponse(text: string) {
+    if ('speechSynthesis' in window) {
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.volume = 0.8;
+      
+      // Use a more natural voice if available
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(voice => 
+        voice.name.includes('Enhanced') || 
+        voice.name.includes('Premium') ||
+        voice.name.includes('Neural')
+      ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+      
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      
+      window.speechSynthesis.speak(utterance);
+    }
   }
 
   async endCall() {
@@ -172,6 +203,11 @@ class WorkingAudioConnection {
         track.stop();
         console.log("🎤 Microphone track stopped");
       });
+    }
+    
+    // Stop any ongoing speech
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
     }
     
     if (this.audioContext && this.audioContext.state !== 'closed') {
