@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 const RETELL_API_KEY = "key_8df001c67b7aaa1c91c4401c580d";
 
@@ -22,25 +22,55 @@ export const useRetellCall = ({
   const [callStatus, setCallStatus] = useState<string>("Ready to start");
   const retellWebClientRef = useRef<any>(null);
 
+  useEffect(() => {
+    // Load Retell SDK dynamically
+    const loadRetellSDK = async () => {
+      try {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/retell-client-js-sdk@2.0.10/dist/retell-client-js-sdk.umd.js';
+        script.onload = () => {
+          console.log('Retell SDK loaded successfully');
+        };
+        document.head.appendChild(script);
+      } catch (error) {
+        console.error('Failed to load Retell SDK:', error);
+      }
+    };
+
+    loadRetellSDK();
+  }, []);
+
   const createWebCall = async (agentId: string) => {
-    // This should be called from your backend to protect API key
-    // For demo purposes, we'll simulate this call
     try {
-      // In production, this would be: 
-      // const response = await fetch('/api/create-web-call', { 
-      //   method: 'POST', 
-      //   body: JSON.stringify({ agent_id: agentId })
-      // });
+      // Create web call using Retell API
+      const response = await fetch('https://api.retellai.com/v2/create-web-call', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RETELL_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          agent_id: agentId,
+          metadata: {
+            demo_call: true,
+            timestamp: new Date().toISOString()
+          }
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        console.error('Create web call failed:', response.status, errorData);
+        throw new Error(`Failed to create web call: ${response.status} ${response.statusText}`);
+      }
+
+      const callData = await response.json();
+      console.log('Web call created successfully:', callData);
+      return callData;
       
-      // For now, simulate successful web call creation
-      return {
-        access_token: `demo_token_${Date.now()}`,
-        call_id: `call_${Date.now()}`,
-        agent_id: agentId
-      };
     } catch (error) {
-      console.error('Failed to create web call:', error);
-      throw new Error('Failed to create web call');
+      console.error('Error creating web call:', error);
+      throw error;
     }
   };
 
@@ -56,124 +86,89 @@ export const useRetellCall = ({
       // Step 1: Create web call to get access token
       const webCallResponse = await createWebCall(agentId);
       
-      setCallStatus("Requesting microphone access...");
+      setCallStatus("Initializing audio...");
       
-      // Step 2: Request microphone access
-      try {
-        await navigator.mediaDevices.getUserMedia({ 
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            sampleRate: 16000
-          } 
+      // Step 2: Initialize Retell Web Client
+      if (typeof window !== 'undefined' && (window as any).RetellWebClient) {
+        const RetellWebClient = (window as any).RetellWebClient;
+        retellWebClientRef.current = new RetellWebClient();
+
+        // Set up event listeners
+        retellWebClientRef.current.on("conversationStarted", () => {
+          console.log("Conversation started");
+          setIsConnected(true);
+          setIsCallActive(true);
+          setCallStatus("Connected - Start speaking!");
+          onCallStart?.();
         });
-        console.log("Microphone access granted");
-      } catch (micError) {
-        throw new Error("Microphone access denied. Please allow microphone access and try again.");
+
+        retellWebClientRef.current.on("conversationEnded", ({ code, reason }: { code: number; reason: string }) => {
+          console.log("Conversation ended:", code, reason);
+          setIsCallActive(false);
+          setIsConnected(false);
+          setCallStatus("Call ended");
+          onCallEnd?.();
+        });
+
+        retellWebClientRef.current.on("error", (error: any) => {
+          console.error("Retell client error:", error);
+          setCallStatus("Call failed");
+          onError?.(`Call error: ${error.message || error}`);
+        });
+
+        retellWebClientRef.current.on("update", (update: any) => {
+          console.log("Call update:", update);
+          
+          // Handle transcript updates
+          if (update.transcript && Array.isArray(update.transcript)) {
+            update.transcript.forEach((item: any) => {
+              if (item.content && item.role) {
+                onTranscript?.({
+                  role: item.role as 'agent' | 'user',
+                  content: item.content,
+                  timestamp: new Date()
+                });
+              }
+            });
+          }
+        });
+
+        setCallStatus("Connecting to agent...");
+
+        // Step 3: Start the call with access token
+        await retellWebClientRef.current.startCall({
+          accessToken: webCallResponse.access_token,
+          sampleRate: 24000,
+          enableUpdate: true,
+        });
+
+        console.log("Call started successfully with agent:", agentId);
+        
+      } else {
+        throw new Error("Retell SDK not loaded. Please refresh the page and try again.");
       }
-
-      setCallStatus("Connecting to agent...");
-      
-      // Step 3: Initialize and start the call
-      // In production with real SDK:
-      // const { RetellWebClient } = await import("retell-client-js-sdk");
-      // retellWebClientRef.current = new RetellWebClient();
-      // 
-      // retellWebClientRef.current.on("conversationStarted", () => {
-      //   setIsConnected(true);
-      //   setIsCallActive(true);
-      //   setCallStatus("Connected - Start speaking!");
-      //   onCallStart?.();
-      // });
-      //
-      // retellWebClientRef.current.on("conversationEnded", () => {
-      //   setIsCallActive(false);
-      //   setIsConnected(false);
-      //   onCallEnd?.();
-      // });
-      //
-      // retellWebClientRef.current.on("update", (update) => {
-      //   if (update.transcript) {
-      //     update.transcript.forEach((item) => {
-      //       onTranscript?.({
-      //         role: item.role,
-      //         content: item.content,
-      //         timestamp: new Date(item.timestamp)
-      //       });
-      //     });
-      //   }
-      // });
-      //
-      // await retellWebClientRef.current.startCall({
-      //   accessToken: webCallResponse.access_token,
-      // });
-
-      // For demo purposes, simulate successful connection
-      setTimeout(() => {
-        setIsConnected(true);
-        setIsCallActive(true);
-        setCallStatus("Connected - Start speaking!");
-        onCallStart?.();
-        
-        // Simulate initial greeting
-        setTimeout(() => {
-          onTranscript?.({
-            role: 'agent',
-            content: "Hello! I'm your AI assistant. How can I help you today?",
-            timestamp: new Date()
-          });
-        }, 1000);
-        
-        // Simulate periodic responses
-        const responses = [
-          "I understand. Can you tell me more about that?",
-          "That's interesting. What would you like to know?", 
-          "I'm here to help. Is there anything specific I can assist you with?",
-          "Thank you for that information. How else can I help?"
-        ];
-        
-        let responseIndex = 0;
-        const responseInterval = setInterval(() => {
-          if (!retellWebClientRef.current?.isCallActive) {
-            clearInterval(responseInterval);
-            return;
-          }
-          
-          onTranscript?.({
-            role: 'agent',
-            content: responses[responseIndex % responses.length],
-            timestamp: new Date()
-          });
-          
-          responseIndex++;
-        }, 10000);
-        
-        // Store interval ref for cleanup
-        retellWebClientRef.current = { 
-          isCallActive: true,
-          responseInterval,
-          endCall: () => {
-            clearInterval(responseInterval);
-            retellWebClientRef.current.isCallActive = false;
-          }
-        };
-        
-      }, 2000);
-      
-      console.log("Call started successfully with agent:", agentId);
       
     } catch (error) {
       console.error('Failed to start call:', error);
       setCallStatus("Failed to connect");
-      onError?.(error instanceof Error ? error.message : "Unknown error");
+      setIsConnected(false);
+      setIsCallActive(false);
+      
+      let errorMessage = "Unknown error occurred";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      
+      onError?.(errorMessage);
     }
   }, [agentId, onCallStart, onTranscript, onError]);
 
   const endCall = useCallback(async () => {
     try {
       if (retellWebClientRef.current) {
-        // In production: await retellWebClientRef.current.stopCall();
-        retellWebClientRef.current.endCall?.();
+        await retellWebClientRef.current.stopCall();
       }
       
       setIsCallActive(false);
