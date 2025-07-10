@@ -14,7 +14,7 @@ export const createWebCall = async (agentId: string): Promise<CreateWebCallRespo
   }
   
   try {
-    const response = await fetch('https://api.retellai.com/v1/create-web-call', {
+    const response = await fetch('https://api.retellai.com/v2/create-web-call', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
