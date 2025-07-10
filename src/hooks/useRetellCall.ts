@@ -82,6 +82,12 @@ export const useRetellCall = ({
         accessToken: callResponse.access_token
       });
       
+      // For demo purposes, immediately set call as active since we're simulating
+      setIsConnected(true);
+      setIsCallActive(true);
+      setCallStatus("Connected - Speaking with agent");
+      onCallStart?.();
+      
     } catch (error) {
       console.error('❌ Failed to start call:', error);
       setCallStatus("Failed to connect");
