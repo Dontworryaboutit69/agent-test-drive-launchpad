@@ -46,32 +46,6 @@ export const Hero = () => {
           <GenerateDemoUrl />
         </div>
 
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: "0.6s" }}>
-          <Card className="p-6 bg-gradient-card backdrop-blur-sm border border-primary/20 shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105">
-            <MessageCircle className="w-12 h-12 text-primary mb-4 drop-shadow-[0_0_10px_rgba(0,229,214,0.5)]" />
-            <h3 className="text-xl font-audiowide mb-2 text-primary">Real-time Voice</h3>
-            <p className="text-foreground/70 font-manrope">
-              Voice conversations directly in your browser. Experience the future of AI communication.
-            </p>
-          </Card>
-
-          <Card className="p-6 bg-gradient-card backdrop-blur-sm border border-accent/20 shadow-card hover:shadow-magenta transition-all duration-300 hover:scale-105">
-            <Zap className="w-12 h-12 text-accent mb-4 drop-shadow-[0_0_10px_rgba(229,54,193,0.5)]" />
-            <h3 className="text-xl font-audiowide mb-2 text-accent">Instant Setup</h3>
-            <p className="text-foreground/70 font-manrope">
-              Zero configuration. Just paste your agent ID and experience next-gen automation.
-            </p>
-          </Card>
-
-          <Card className="p-6 bg-gradient-card backdrop-blur-sm border border-brand-cyber-yellow/20 shadow-card hover:shadow-[0_0_30px_rgba(254,221,77,0.3)] transition-all duration-300 hover:scale-105">
-            <Users className="w-12 h-12 text-brand-cyber-yellow mb-4 drop-shadow-[0_0_10px_rgba(254,221,77,0.5)]" />
-            <h3 className="text-xl font-audiowide mb-2 text-brand-cyber-yellow">Multi-Client Ready</h3>
-            <p className="text-foreground/70 font-manrope">
-              Multiple clients can test different agents simultaneously. Built for scale.
-            </p>
-          </Card>
-        </div>
 
         {/* CTA */}
         <div className="text-center mt-16 animate-fade-in" style={{ animationDelay: "0.9s" }}>

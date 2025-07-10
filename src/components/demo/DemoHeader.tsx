@@ -10,19 +10,12 @@ export const DemoHeader = ({ agentId }: DemoHeaderProps) => {
   return (
     <>
       {/* Navigation Header */}
-      <div className="flex items-center justify-between mb-8">
-        <Link to="/" className="inline-flex items-center gap-2 text-foreground/70 hover:text-primary transition-colors font-manrope">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
-        
-        <div className="flex justify-center">
-          <img 
-            src="/lovable-uploads/9f080a38-d1b4-4473-8c2e-f32b994e43d6.png" 
-            alt="RevSquared AI Logo" 
-            className="h-12 w-auto drop-shadow-[0_0_20px_rgba(0,229,214,0.3)]"
-          />
-        </div>
+      <div className="flex justify-center mb-8">
+        <img 
+          src="/lovable-uploads/9f080a38-d1b4-4473-8c2e-f32b994e43d6.png" 
+          alt="RevSquared AI Logo" 
+          className="h-12 w-auto drop-shadow-[0_0_20px_rgba(0,229,214,0.3)]"
+        />
       </div>
 
       {/* Demo Title Header */}
