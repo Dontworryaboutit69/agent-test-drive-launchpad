@@ -8,37 +8,48 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 225 25% 98%;
-    --foreground: 220 20% 10%;
+    --background: 218 44% 5%;
+    --foreground: 240 13% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card: 220 27% 8%;
+    --card-foreground: 240 13% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover: 220 27% 8%;
+    --popover-foreground: 240 13% 96%;
 
-    --primary: 262 90% 50%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 262 100% 70%;
+    /* RevSquared AI Brand Colors */
+    --primary: 175 100% 45%; /* Neon Aqua #00E5D6 */
+    --primary-foreground: 218 44% 5%;
+    --primary-glow: 175 100% 65%;
 
-    --secondary: 220 25% 95%;
-    --secondary-foreground: 220 20% 10%;
+    --secondary: 220 27% 12%;
+    --secondary-foreground: 240 13% 96%;
 
-    --muted: 220 25% 95%;
+    --muted: 220 27% 12%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 262 85% 55%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 304 78% 55%; /* Hot Magenta #E536C1 */
+    --accent-foreground: 240 13% 96%;
+
+    /* Brand Palette */
+    --neon-aqua: 175 100% 45%; /* #00E5D6 */
+    --hot-magenta: 304 78% 55%; /* #E536C1 */
+    --cyber-yellow: 52 92% 64%; /* #FEDD4D */
+    --purple-grape: 256 75% 55%; /* #6233EA */
+    --deep-violet: 238 73% 24%; /* #20215A */
+    --soft-lavender: 236 100% 88%; /* #D3D4FF */
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-hero: linear-gradient(135deg, hsl(262 90% 50%), hsl(262 100% 70%), hsl(280 85% 60%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.8), hsl(220 25% 98%));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--neon-aqua)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--neon-aqua)), hsl(var(--hot-magenta)), hsl(var(--purple-grape)));
+    --gradient-card: linear-gradient(145deg, hsl(220 27% 8% / 0.9), hsl(220 27% 12%));
+    --gradient-neon: linear-gradient(90deg, hsl(var(--neon-aqua)), hsl(var(--hot-magenta)));
     
     /* Shadows */
-    --shadow-primary: 0 10px 30px -10px hsl(var(--primary) / 0.3);
-    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
-    --shadow-card: 0 4px 20px -4px hsl(220 25% 25% / 0.1);
+    --shadow-primary: 0 10px 30px -10px hsl(var(--neon-aqua) / 0.4);
+    --shadow-glow: 0 0 40px hsl(var(--neon-aqua) / 0.6);
+    --shadow-magenta: 0 0 30px hsl(var(--hot-magenta) / 0.5);
+    --shadow-card: 0 4px 20px -4px hsl(220 25% 25% / 0.3);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -67,21 +78,21 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 220 27% 8%;
-    --foreground: 210 40% 98%;
+    --background: 218 44% 5%;
+    --foreground: 240 13% 96%;
 
-    --card: 220 27% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 27% 8%;
+    --card-foreground: 240 13% 96%;
 
-    --popover: 220 27% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 27% 8%;
+    --popover-foreground: 240 13% 96%;
 
-    --primary: 262 100% 70%;
-    --primary-foreground: 220 27% 8%;
-    --primary-glow: 262 100% 80%;
+    --primary: 175 100% 45%;
+    --primary-foreground: 218 44% 5%;
+    --primary-glow: 175 100% 65%;
 
-    --secondary: 220 25% 16%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 27% 12%;
+    --secondary-foreground: 240 13% 96%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -112,6 +123,10 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-manrope;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-audiowide;
   }
 }

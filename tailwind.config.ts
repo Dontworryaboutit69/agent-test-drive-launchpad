@@ -18,6 +18,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'audiowide': ['Audiowide', 'sans-serif'],
+				'manrope': ['Manrope', 'sans-serif'],
+				'pacifico': ['Pacifico', 'cursive'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -26,7 +31,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -51,6 +57,14 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				brand: {
+					'neon-aqua': 'hsl(var(--neon-aqua))',
+					'hot-magenta': 'hsl(var(--hot-magenta))',
+					'cyber-yellow': 'hsl(var(--cyber-yellow))',
+					'purple-grape': 'hsl(var(--purple-grape))',
+					'deep-violet': 'hsl(var(--deep-violet))',
+					'soft-lavender': 'hsl(var(--soft-lavender))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
@@ -124,11 +138,13 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-card': 'var(--gradient-card)'
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-neon': 'var(--gradient-neon)'
 			},
 			boxShadow: {
 				'primary': 'var(--shadow-primary)',
 				'glow': 'var(--shadow-glow)',
+				'magenta': 'var(--shadow-magenta)',
 				'card': 'var(--shadow-card)'
 			}
 		}

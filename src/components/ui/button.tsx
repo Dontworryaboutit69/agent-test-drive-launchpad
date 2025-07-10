@@ -9,17 +9,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary hover:shadow-glow hover:scale-105",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary hover:shadow-glow hover:scale-105 font-audiowide",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 font-audiowide",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-primary bg-background hover:bg-primary hover:text-primary-foreground hover:shadow-glow font-audiowide",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 font-audiowide",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-105 shadow-primary",
-        chat: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-110 shadow-primary rounded-full",
+        hero: "bg-gradient-neon text-background hover:shadow-glow hover:scale-105 shadow-primary font-audiowide",
+        chat: "bg-gradient-neon text-background hover:shadow-glow hover:scale-110 shadow-primary rounded-full font-audiowide",
+        neon: "bg-primary text-primary-foreground hover:shadow-glow hover:scale-105 border border-primary/30 font-audiowide",
+        magenta: "bg-accent text-accent-foreground hover:shadow-magenta hover:scale-105 font-audiowide",
       },
       size: {
         default: "h-10 px-4 py-2",

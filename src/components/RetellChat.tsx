@@ -106,28 +106,28 @@ export const RetellChat = ({ agentId, apiKey }: RetellChatProps) => {
   return (
     <div className="space-y-6">
       {/* Call Status */}
-      <Card className="p-6 bg-gradient-card backdrop-blur-sm border shadow-card">
+      <Card className="p-6 bg-gradient-card backdrop-blur-sm border border-primary/20 shadow-card">
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center space-x-2">
             <div className={`w-3 h-3 rounded-full ${
-              isCallActive ? 'bg-green-500 animate-pulse' : 
-              isConnected ? 'bg-yellow-500' : 'bg-red-500'
+              isCallActive ? 'bg-primary animate-pulse shadow-glow' : 
+              isConnected ? 'bg-brand-cyber-yellow shadow-[0_0_10px_rgba(254,221,77,0.5)]' : 'bg-accent'
             }`} />
-            <span className="font-medium">
+            <span className="font-audiowide text-sm">
               {isCallActive ? 'Call Active' : isConnected ? 'Ready' : 'Connecting...'}
             </span>
           </div>
           
-          <p className="text-sm text-muted-foreground">
-            Agent ID: <code className="bg-muted px-2 py-1 rounded text-xs">{agentId}</code>
+          <p className="text-sm text-foreground/60 font-manrope">
+            Agent ID: <code className="bg-background/50 px-2 py-1 rounded text-xs font-mono text-primary border border-primary/20">{agentId}</code>
           </p>
           
-          <p className="text-sm font-medium">{callStatus}</p>
+          <p className="text-sm font-audiowide text-accent">{callStatus}</p>
         </div>
       </Card>
 
       {/* Call Controls */}
-      <Card className="p-6 bg-gradient-card backdrop-blur-sm border shadow-card">
+      <Card className="p-6 bg-gradient-card backdrop-blur-sm border border-accent/20 shadow-card">
         <div className="flex justify-center space-x-4">
           {!isCallActive ? (
             <Button
@@ -153,7 +153,7 @@ export const RetellChat = ({ agentId, apiKey }: RetellChatProps) => {
             <div className="flex space-x-3">
               <Button
                 onClick={toggleMute}
-                variant={isMuted ? "destructive" : "secondary"}
+                variant={isMuted ? "destructive" : "magenta"}
                 size="lg"
               >
                 {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
@@ -174,14 +174,14 @@ export const RetellChat = ({ agentId, apiKey }: RetellChatProps) => {
       </Card>
 
       {/* Instructions */}
-      <Card className="p-4 bg-muted/50 border-dashed">
+      <Card className="p-4 bg-background/30 border-dashed border-primary/30 backdrop-blur-sm">
         <div className="text-center space-y-2">
-          <h4 className="font-medium">How to test:</h4>
-          <div className="text-sm text-muted-foreground space-y-1">
-            <p>1. Click "Start Call" to connect to your AI agent</p>
-            <p>2. Allow microphone access when prompted</p>
+          <h4 className="font-audiowide text-primary">How to test:</h4>
+          <div className="text-sm text-foreground/70 space-y-1 font-manrope">
+            <p>1. Click "Start Call" to connect to your Voice AI agent</p>
+            <p>2. Allow microphone access when prompted by your browser</p>
             <p>3. Speak naturally - the agent will respond in real-time</p>
-            <p>4. Use mute button to pause your microphone</p>
+            <p>4. Use mute button to pause your microphone input</p>
           </div>
         </div>
       </Card>
