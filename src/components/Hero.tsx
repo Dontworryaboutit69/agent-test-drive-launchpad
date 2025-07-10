@@ -53,12 +53,6 @@ export const Hero = () => {
             <span className="text-primary font-audiowide">Old school cool.</span> 
             <span className="text-accent font-audiowide"> New school smart.</span>
           </p>
-          <div className="bg-card/50 backdrop-blur-sm px-6 py-4 rounded-lg border border-primary/20 inline-block">
-            <p className="text-sm text-foreground/60 mb-2 font-manrope">Demo URL format:</p>
-            <code className="text-primary font-mono text-sm">
-              {window.location.origin}/demo/YOUR_AGENT_ID
-            </code>
-          </div>
         </div>
       </div>
     </div>
