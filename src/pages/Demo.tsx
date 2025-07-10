@@ -87,7 +87,7 @@ const Demo = () => {
       <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float" />
       
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="relative z-10 container mx-auto px-4 py-6 md:py-8">
         <DemoHeader agentId={agentId} />
 
         <div className="max-w-4xl mx-auto">

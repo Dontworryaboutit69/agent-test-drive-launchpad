@@ -12,15 +12,15 @@ export const Hero = () => {
       <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
       <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-brand-cyber-yellow/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
       
-      <div className="relative z-10 container mx-auto px-4 py-20">
+      <div className="relative z-10 container mx-auto px-4 py-10 md:py-20">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           {/* Logo */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6 md:mb-8">
             <img 
               src="/lovable-uploads/9f080a38-d1b4-4473-8c2e-f32b994e43d6.png" 
               alt="RevSquared AI Logo" 
-              className="h-24 w-auto drop-shadow-[0_0_20px_rgba(0,229,214,0.5)]"
+              className="h-20 md:h-32 w-auto drop-shadow-[0_0_20px_rgba(0,229,214,0.5)]"
             />
           </div>
           
@@ -29,13 +29,13 @@ export const Hero = () => {
             <span className="text-sm font-audiowide text-primary">Voice AI Demo Generator</span>
           </div>
           
-          <h1 className="text-6xl font-audiowide font-bold mb-6 bg-gradient-neon bg-clip-text text-transparent drop-shadow-lg">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-audiowide font-bold mb-4 md:mb-6 bg-gradient-neon bg-clip-text text-transparent drop-shadow-lg px-4">
             Create Demo Links
             <br />
-            <span className="text-5xl">For Your AI Agents</span>
+            <span className="text-2xl md:text-4xl lg:text-5xl">For Your AI Agents</span>
           </h1>
           
-          <p className="text-xl text-foreground/80 max-w-2xl mx-auto leading-relaxed font-manrope">
+          <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto leading-relaxed font-manrope px-4">
             Generate instant demo URLs for your Retell AI agents. Share with clients for 
             <span className="text-primary font-semibold"> professional voice testing</span>.
           </p>
