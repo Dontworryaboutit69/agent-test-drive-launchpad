@@ -244,6 +244,11 @@ const Demo = () => {
                     </div>
                   )}
                 </div>
+                
+                {/* Debug info - remove this later */}
+                <div className="text-center mt-4 text-xs text-foreground/50">
+                  Debug: isCallActive={isCallActive ? 'true' : 'false'}, isStarting={isStarting ? 'true' : 'false'}
+                </div>
               </Card>
 
               {/* Instructions */}
