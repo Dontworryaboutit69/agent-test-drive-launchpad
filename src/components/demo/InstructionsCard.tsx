@@ -6,7 +6,8 @@ export const InstructionsCard = () => {
         <div className="text-sm text-foreground/70 space-y-1 font-manrope">
           <p>1. Press Start Call</p>
           <p>2. Test your agent and add notes in the box for feedback</p>
-          <p>3. Update the createWebCall function to call your backend</p>
+          <p>
+        </p>
           <p>4. Then test the agent with real voice calls</p>
         </div>
       </div>
