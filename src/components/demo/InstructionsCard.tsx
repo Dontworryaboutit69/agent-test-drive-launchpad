@@ -5,8 +5,8 @@ export const InstructionsCard = () => {
         <h4 className="font-audiowide text-primary">How To Test: </h4>
         <div className="text-sm text-foreground/70 space-y-1 font-manrope">
           <p>1. Press Start Call</p>
-          <p>2. Test your agent and add notes in the box for feedback
-3. Submit Feedback for impovements </p>
+          <p>2. Test your agent and add notes in the box for feedback 
+3. Submit Feedback For Improvements </p>
           <p>
         </p>
           <p>
