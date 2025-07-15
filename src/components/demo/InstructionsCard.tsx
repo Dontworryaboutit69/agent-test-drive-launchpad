@@ -8,7 +8,8 @@ export const InstructionsCard = () => {
           <p>2. Test your agent and add notes in the box for feedback</p>
           <p>
         </p>
-          <p>4. Then test the agent with real voice calls</p>
+          <p>
+        </p>
         </div>
       </div>
     </Card>;
